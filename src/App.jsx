@@ -4,7 +4,7 @@ import "./App.css";
 
 function App() {
   const [value, setValue] = useState(0);
-
+  const [battery, setBattery] = useState(0);
   useEffect(() => {
     if ("getBattery" in navigator) {
       navigator.getBattery().then(function (battery) {
@@ -12,24 +12,17 @@ function App() {
         function updateBatteryStatus() {
           let deger = Math.floor(battery.level * 100);
         }
-
-        // Initial battery status
         updateBatteryStatus();
-
-        // Add event listener to listen for changes in battery level
         battery.addEventListener("levelchange", updateBatteryStatus);
-
-        // Cleanup function to remove event listener
         return () => {
           battery.removeEventListener("levelchange", updateBatteryStatus);
         };
       });
     }
   }, []);
-
   return (
     <div>
-      <Knob value={value} />
+      <Knob value={battery} />
     </div>
   );
 }
